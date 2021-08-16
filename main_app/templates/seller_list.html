@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+ {% comment %} block for title tag in the head {%endcomment %} 
+{% block title %}Sellers{% endblock %} 
+{% comment %} main content{% endcomment %} 
+{% block content %}
+
+<h1 class="title pt-5 pl-5">{{header}}</h1>
+
+<form class="mb-5 pl-5">
+  <div class="field has-addons">
+    <div class="control">
+      <!--  Our input will search by name of seller  -->
+      <input class="input" type="text" name="name" placeholder="name" />
+    </div>
+    <div class="control">
+      <input class="button is-success" type="submit" value="Search" />
+    </div>
+  </div>
+  <!--  This anchor tag will redirect back to seller list without a query param -->
+  <a class="button is-dark" href="{% url 'seller_list' %}">Clear Search</a>
+  <!-- <a class="button is-dark" href="{% url 'seller_create' %}">Add seller</a> -->
+</form>
+
+<div class="gallery p-5">
+  {% for seller in sellers %}
+  <a href="{% url 'seller_detail' seller.pk %}">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-square">
+          <img src="{{seller.img}}" alt="{{seller.name}}" />
+        </figure>
+      </div>
+      <div class="card-header">
+        <p class="card-header-title">{{seller.name}}</p>
+      </div>
+    </div>
+  </a>
+  {% empty %}
+  <article class="message">
+    <div class="message-header">
+      <p>No sellers Available</p>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
