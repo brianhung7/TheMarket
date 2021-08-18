@@ -22,10 +22,11 @@
             </a>
           </div>
           <div class="navbar-menu navbar-start">
-            <a class="navbar-item" href="/about">About</a>
+            <a class="navbar-item" href="{% url 'product_list' %}">Products</a>
           </div>
           <div class="navbar-menu navbar-end">
             <a class="navbar-item" href="/sellers">Sellers</a>
+            <a class="navbar-item" href="{% url 'seller_create' %}">New Seller</a>
           </div>
         </nav>
         <div class="container">

@@ -15,6 +15,23 @@ class Home(TemplateView):
 class ProductList(TemplateView):
     template_name = "product_list.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name_query = self.request.GET.get("name")
+
+        if name_query != None:
+            context['products'] = Product.objects.filter(name__icontains = name_query)
+            context['header'] = f"Searching for {name_query}"
+        else:
+            context['products'] = Product.objects.all()
+            context['header'] = "Popular Products"
+
+        return context
+
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = "product_detail.html"
 
 class SellerList(TemplateView):
     template_name = "seller_list.html"
@@ -35,4 +52,21 @@ class SellerList(TemplateView):
 
 class SellerCreate(CreateView):
     model = Seller
-    
+    fields = ['name','img','bio']
+    template_name = 'seller_create.html'
+
+    def get_success_url(self):
+        return reverse('seller_detail', kwargs = {'the_slug': self.object.slug})
+
+
+class SellerDetail(DetailView):
+    model = Seller
+    template_name = "seller_detail.html"
+    slug_url_kwarg = 'the_slug'
+    # Should match the name of the slug field on the model 
+    slug_field = 'slug' # DetailView's default value: optional
+
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = "product_detail.html"
